@@ -22,13 +22,14 @@
 
 import json
 import unittest
-import requests_mock
-import vectrandr_consts as consts
 
+import requests_mock
 from phantom.action_result import ActionResult
+
+import vectrandr_consts as consts
 from vectrandr_connector import VectraNDRConnector
 
-from . import vectrandr_responses, vectrandr_config
+from . import vectrandr_config, vectrandr_responses
 
 
 class TestOnPollAction(unittest.TestCase):

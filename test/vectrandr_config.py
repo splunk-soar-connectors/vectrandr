@@ -21,9 +21,9 @@
 # and limitations under the License.
 
 import os
-import encryption_helper
 import uuid
 
+import encryption_helper
 import requests
 from dotenv import load_dotenv
 

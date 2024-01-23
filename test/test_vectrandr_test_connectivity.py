@@ -28,7 +28,7 @@ from unittest.mock import patch
 import vectrandr_consts as consts
 from vectrandr_connector import VectraNDRConnector
 
-from . import vectrandr_responses, vectrandr_config
+from . import vectrandr_config, vectrandr_responses
 
 
 class TestConnectivityAction(unittest.TestCase):

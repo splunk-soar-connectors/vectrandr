@@ -21,6 +21,7 @@
 # and limitations under the License.
 
 import phantom.app as phantom
+
 import vectrandr_consts as consts
 from actions import BaseAction
 
@@ -40,7 +41,8 @@ class AddNoteAction(BaseAction):
         if object_type not in consts.VECTRA_VALID_ENTITIES and object_type != "detection":
             return self._action_result.set_status(phantom.APP_ERROR, consts.VECTRA_ERROR_INVALID_DROPDOWN_VALUE.format(key="object_type"))
 
-        url = f"{consts.VECTRA_API_VERSION}{consts.VECTRA_ADD_NOTE_ENDPOINT.format(object_type=consts.ENTITY_TYPE_MAPPING[object_type], object_id=object_id)}"
+        url = f'''{consts.VECTRA_API_VERSION}{consts.VECTRA_ADD_NOTE_ENDPOINT.format(
+            object_type=consts.ENTITY_TYPE_MAPPING[object_type], object_id=object_id)}'''
         payload = {"note": note}
 
         ret_val, response = self._connector.util._make_rest_call_helper(url, self._action_result, "post", json=payload)

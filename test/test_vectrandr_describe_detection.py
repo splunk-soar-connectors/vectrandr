@@ -27,7 +27,7 @@ from unittest.mock import patch
 
 from vectrandr_connector import VectraNDRConnector
 
-from . import vectrandr_responses, vectrandr_config
+from . import vectrandr_config, vectrandr_responses
 
 
 class DescribeDetectionAction(unittest.TestCase):

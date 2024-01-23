@@ -20,16 +20,16 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-import unittest
-from unittest.mock import Mock
-import phantom.app as phantom
-from unittest.mock import patch
-import shutil
 import os
-import vectrandr_consts as consts
+import shutil
+import unittest
+from unittest.mock import Mock, patch
 
+import phantom.app as phantom
 from parameterized import parameterized
 from phantom.action_result import ActionResult
+
+import vectrandr_consts as consts
 from vectrandr_connector import VectraNDRConnector
 from vectrandr_utils import RetVal, VectraNDRUtils
 
@@ -298,7 +298,8 @@ class TestCreateCriticalSeverity(unittest.TestCase):
         """
         Test case for creating a critical severity.
 
-        This function tests the successful creation of a critical severity. It mocks the necessary dependencies and verifies that the appropriate API calls are made.
+        This function tests the successful creation of a critical severity. It mocks the necessary
+        dependencies and verifies that the appropriate API calls are made.
 
         Parameters:
         - mock_delete: The mock object for the 'requests.delete' function.

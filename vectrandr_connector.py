@@ -20,14 +20,15 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-import phantom.app as phantom
-from phantom.base_connector import BaseConnector
-from vectrandr_utils import VectraNDRUtils
-from actions import BaseAction
+import json
 from importlib import import_module
 
+import phantom.app as phantom
 import requests
-import json
+from phantom.base_connector import BaseConnector
+
+from actions import BaseAction
+from vectrandr_utils import VectraNDRUtils
 
 
 class VectraNDRConnector(BaseConnector):

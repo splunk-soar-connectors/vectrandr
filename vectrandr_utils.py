@@ -21,15 +21,17 @@
 # and limitations under the License.
 
 
+import json
+import os
 import time
+import uuid
+
 import phantom.app as phantom
 import requests
 from bs4 import BeautifulSoup
-import vectrandr_consts as consts
 from phantom.vault import Vault
-import os
-import json
-import uuid
+
+import vectrandr_consts as consts
 
 
 class RetVal(tuple):
@@ -301,7 +303,8 @@ class VectraNDRUtils(object):
             container_id (str): The ID of the container.
 
         Returns:
-            dict: A dictionary containing the artifact IDs as keys and the corresponding IDs as values. Returns an empty dictionary if no artifact is found.
+            dict: A dictionary containing the artifact IDs as keys and the corresponding IDs as values.
+            Returns an empty dictionary if no artifact is found.
         """
         url = consts.SPLUNK_SOAR_GET_CONTAINER_ARTIFACT_ENDPOINT.format(
             url=self._connector.get_phantom_base_url(), container_id=container_id)

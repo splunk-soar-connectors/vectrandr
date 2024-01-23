@@ -20,10 +20,12 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-from actions import BaseAction
-import vectrandr_consts as consts
+from datetime import datetime, timedelta, timezone
+
 import phantom.app as phantom
-from datetime import datetime, timezone, timedelta
+
+import vectrandr_consts as consts
+from actions import BaseAction
 
 
 class OnPollAction(BaseAction):
@@ -321,12 +323,14 @@ class OnPollAction(BaseAction):
             total_ingested += max_allowed_container - self._connector._dup_entities
 
             self._connector.debug_print(
-                f"Value of max_allowed_container is {str(max_allowed_container)}, duplicates is {self._connector._dup_entities}, run_limit is {container_limit}")
+                f"Value of max_allowed_container is {str(max_allowed_container)}, duplicates is \
+                    {self._connector._dup_entities}, run_limit is {container_limit}")
             self._connector.save_progress("Got total {} entities".format(len(entities)))
 
             if entities and not self._connector.is_poll_now():
                 # save the last modified timestamp into the state file
-                self._connector.state[consts.VECTRA_LAST_DETECTION_TIMESTAMP_IN_STATE] = entities[-1][consts.VECTRA_LAST_DETECTION_TIMESTAMP_IN_STATE]
+                self._connector.state[consts.VECTRA_LAST_DETECTION_TIMESTAMP_IN_STATE] = \
+                    entities[-1][consts.VECTRA_LAST_DETECTION_TIMESTAMP_IN_STATE]
 
             if total_ingested >= container_limit:
                 break

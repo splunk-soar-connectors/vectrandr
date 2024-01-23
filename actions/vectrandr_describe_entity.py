@@ -21,6 +21,7 @@
 # and limitations under the License.
 
 import phantom.app as phantom
+
 import vectrandr_consts as consts
 from actions import BaseAction
 
@@ -40,7 +41,8 @@ class DescribeEntityAction(BaseAction):
         if entity_type not in consts.VECTRA_VALID_ENTITIES:
             return self._action_result.set_status(phantom.APP_ERROR, consts.VECTRA_ERROR_INVALID_ENTITY)
 
-        url = f'{consts.VECTRA_API_VERSION}{consts.VECTRA_ENTITY_ENDPOINT.format(entity_type=consts.ENTITY_TYPE_MAPPING[entity_type], entity_id=entity_id)}'
+        url = f'''{consts.VECTRA_API_VERSION}{consts.VECTRA_ENTITY_ENDPOINT.format(
+            entity_type=consts.ENTITY_TYPE_MAPPING[entity_type], entity_id=entity_id)}'''
         ret_val, response = self._connector.util._make_rest_call_helper(
             url, self._action_result)
         if phantom.is_fail(ret_val):

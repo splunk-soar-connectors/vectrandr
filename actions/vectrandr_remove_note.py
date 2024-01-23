@@ -21,6 +21,7 @@
 # and limitations under the License.
 
 import phantom.app as phantom
+
 import vectrandr_consts as consts
 from actions import BaseAction
 
@@ -45,8 +46,8 @@ class RemoveNoteAction(BaseAction):
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 
-        url = (f'{consts.VECTRA_API_VERSION}'
-               f'{consts.VECTRA_UPDATE_REMOVE_NOTE_ENDPOINT.format(entity_type=consts.ENTITY_TYPE_MAPPING[entity_type], entity_id=entity_id, note_id=note_id)}')
+        url = f'''{consts.VECTRA_API_VERSION}{consts.VECTRA_UPDATE_REMOVE_NOTE_ENDPOINT.format(
+            entity_type=consts.ENTITY_TYPE_MAPPING[entity_type], entity_id=entity_id, note_id=note_id)}'''
 
         ret_val, response = self._connector.util._make_rest_call_helper(
             url, self._action_result, "delete")
