@@ -1,6 +1,6 @@
 # File: vectrandr_view.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) Vectra, 2024
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
