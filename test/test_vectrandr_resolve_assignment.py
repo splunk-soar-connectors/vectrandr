@@ -1,6 +1,6 @@
 # File: test_vectrandr_resolve_assignment.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -50,8 +50,9 @@ class ResolveAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'assignment_id': 156, "outcome": "Benign True Positive",
-                                         "note": "Test Note", "triage_as": "Test", "detection_ids": "1000,1001"}]
+        self.test_json["parameters"] = [
+            {"assignment_id": 156, "outcome": "Benign True Positive", "note": "Test Note", "triage_as": "Test", "detection_ids": "1000,1001"}
+        ]
 
         mock_get.return_value.status_code = 200
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -76,8 +77,9 @@ class ResolveAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'assignment_id': 21112, "outcome": "Benign True Positive",
-                                         "note": "Test Note", "triage_as": "Test", "detection_ids": "1000,1001"}]
+        self.test_json["parameters"] = [
+            {"assignment_id": 21112, "outcome": "Benign True Positive", "note": "Test Note", "triage_as": "Test", "detection_ids": "1000,1001"}
+        ]
 
         mock_get.return_value.status_code = 200
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -102,8 +104,9 @@ class ResolveAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'assignment_id': 156, "outcome": "False True",
-                                         "note": "Test Note", "triage_as": "Test", "detection_ids": "1000,1001"}]
+        self.test_json["parameters"] = [
+            {"assignment_id": 156, "outcome": "False True", "note": "Test Note", "triage_as": "Test", "detection_ids": "1000,1001"}
+        ]
 
         mock_get.return_value.status_code = 200
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -128,8 +131,15 @@ class ResolveAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'assignment_id': 156, "outcome": "Benign True Positive",
-                                         "note": "Test Note", "triage_as": "Test", "detection_ids": "detection1, detection2"}]
+        self.test_json["parameters"] = [
+            {
+                "assignment_id": 156,
+                "outcome": "Benign True Positive",
+                "note": "Test Note",
+                "triage_as": "Test",
+                "detection_ids": "detection1, detection2",
+            }
+        ]
 
         mock_get.return_value.status_code = 200
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -154,8 +164,9 @@ class ResolveAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'assignment_id': 156, "outcome": "Benign True Positive",
-                                         "note": "Test Note", "triage_as": "Test", "detection_ids": "12345, 67890"}]
+        self.test_json["parameters"] = [
+            {"assignment_id": 156, "outcome": "Benign True Positive", "note": "Test Note", "triage_as": "Test", "detection_ids": "12345, 67890"}
+        ]
 
         mock_get.return_value.status_code = 200
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS

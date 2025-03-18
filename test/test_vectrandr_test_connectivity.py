@@ -1,6 +1,6 @@
 # File: test_vectrandr_test_connectivity.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -58,15 +58,15 @@ class TestConnectivityAction(unittest.TestCase):
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)
-        self.assertEqual(ret_val['status'], 'success')
+        self.assertEqual(ret_val["status"], "success")
 
         mock_get.assert_called_with(
             f"{vectrandr_config.DUMMY_BASE_URL}{consts.VECTRA_API_VERSION}{consts.VECTRA_TEST_CONNECTIVITY_ENDPOINT}",
             timeout=consts.VECTRA_REQUEST_TIMEOUT,
             headers=vectrandr_config.ACTION_HEADER,
-            params={'page_size': 1},
+            params={"page_size": 1},
             verify=False,
-            stream=False
+            stream=False,
         )
 
     @patch("vectrandr_utils.VectraNDRUtils._create_critical_severity")
@@ -79,20 +79,18 @@ class TestConnectivityAction(unittest.TestCase):
         """
         mock_get.return_value.status_code = 401
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS
-        mock_get.return_value.json.return_value = {
-            "detail": "Invalid token."
-        }
+        mock_get.return_value.json.return_value = {"detail": "Invalid token."}
         requests_mock.return_value = None
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)
-        self.assertEqual(ret_val['status'], 'failed')
+        self.assertEqual(ret_val["status"], "failed")
 
         mock_get.assert_called_with(
             f"{vectrandr_config.DUMMY_BASE_URL}{consts.VECTRA_API_VERSION}{consts.VECTRA_TEST_CONNECTIVITY_ENDPOINT}",
             timeout=consts.VECTRA_REQUEST_TIMEOUT,
             headers=vectrandr_config.ACTION_HEADER,
-            params={'page_size': 1},
+            params={"page_size": 1},
             verify=False,
-            stream=False
+            stream=False,
         )

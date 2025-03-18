@@ -1,6 +1,6 @@
 # File: vectrandr_add_tags.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -46,9 +46,7 @@ class AddTagsAction(BaseAction):
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 
-        ret_val, all_tags = self._connector.util._get_entity_related_tags(
-            self._action_result, object_id, object_type
-        )
+        ret_val, all_tags = self._connector.util._get_entity_related_tags(self._action_result, object_id, object_type)
 
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
@@ -57,9 +55,7 @@ class AddTagsAction(BaseAction):
 
         all_tags = list(dict.fromkeys(all_tags))
 
-        ret_val, response = self._connector.util._add_remove_entity_related_tags(
-            self._action_result, object_id, object_type, all_tags
-        )
+        ret_val, response = self._connector.util._add_remove_entity_related_tags(self._action_result, object_id, object_type, all_tags)
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 

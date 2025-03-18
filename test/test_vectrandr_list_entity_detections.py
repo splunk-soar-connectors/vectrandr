@@ -1,6 +1,6 @@
 # File: test_vectrandr_list_entity_detections.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -50,7 +50,7 @@ class ListEntityDetectionsAction(unittest.TestCase):
         Patch the get() to return the valid response.
         """
         # Define the side_effect function
-        self.test_json['parameters'] = [{"entity_id": 100, "entity_type": "host"}]
+        self.test_json["parameters"] = [{"entity_id": 100, "entity_type": "host"}]
 
         mock_get.return_value.status_code = 200
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -72,7 +72,7 @@ class ListEntityDetectionsAction(unittest.TestCase):
         """
         # Define the side_effect function
 
-        self.test_json['parameters'] = [{"entity_id": 1000, "entity_type": "host"}]
+        self.test_json["parameters"] = [{"entity_id": 1000, "entity_type": "host"}]
 
         mock_get.return_value.status_code = 200
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -92,7 +92,7 @@ class ListEntityDetectionsAction(unittest.TestCase):
         Patch the get() to return the valid response.
         """
         # Define the side_effect function
-        self.test_json['parameters'] = [{"entity_id": 1000, "entity_type": "invalid_host"}]
+        self.test_json["parameters"] = [{"entity_id": 1000, "entity_type": "invalid_host"}]
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)

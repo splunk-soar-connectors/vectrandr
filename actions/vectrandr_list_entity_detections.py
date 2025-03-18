@@ -1,6 +1,6 @@
 # File: vectrandr_list_entity_detections.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -31,10 +31,9 @@ class ListEntityDetectionsAction(BaseAction):
 
     def execute(self):
         """Execute the list entity detections action."""
-        entity_type = self._param['entity_type'].lower()
+        entity_type = self._param["entity_type"].lower()
 
-        ret_val, entity_id = self._connector.util._validate_integer(
-            self._action_result, self._param['entity_id'], "entity_id", True)
+        ret_val, entity_id = self._connector.util._validate_integer(self._action_result, self._param["entity_id"], "entity_id", True)
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 
@@ -44,15 +43,11 @@ class ListEntityDetectionsAction(BaseAction):
         if entity_type == "account":
             entity_type = "linked_account"
 
-        params = {
-            "query_string": f"detection.src_{entity_type}.id:{entity_id} AND detection.state:\"active\""
-        }
+        params = {"query_string": f'detection.src_{entity_type}.id:{entity_id} AND detection.state:"active"'}
 
-        url = f'{consts.VECTRA_API_2_2_VERSION}{consts.VECTRA_SEARCH_DETECTIONS_ENDPOINT}'
+        url = f"{consts.VECTRA_API_2_2_VERSION}{consts.VECTRA_SEARCH_DETECTIONS_ENDPOINT}"
 
-        ret_val, response = self._connector.util._paginator(
-            self._action_result, url, params
-        )
+        ret_val, response = self._connector.util._paginator(self._action_result, url, params)
 
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()

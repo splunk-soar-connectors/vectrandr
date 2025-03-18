@@ -1,6 +1,6 @@
 # File: test_vectrandr_mark_entity_detections.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -50,7 +50,7 @@ class MarkEntityDetectionsAction(unittest.TestCase):
 
         Patch the patch() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_type': "host", 'entity_id': 1}]
+        self.test_json["parameters"] = [{"entity_type": "host", "entity_id": 1}]
 
         mock_patch.return_value.status_code = 200
         mock_patch.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -62,7 +62,7 @@ class MarkEntityDetectionsAction(unittest.TestCase):
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)
 
-        self.assertEqual(ret_val['status'], 'success')
+        self.assertEqual(ret_val["status"], "success")
 
     @patch("vectrandr_utils.requests.get")
     def test_mark_entity_detections_invalid_entity_id(self, mock_get):
@@ -71,7 +71,7 @@ class MarkEntityDetectionsAction(unittest.TestCase):
 
         Patch the patch() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_type': "host", 'entity_id': 0}]
+        self.test_json["parameters"] = [{"entity_type": "host", "entity_id": 0}]
 
         mock_get.return_value.status_code = 404
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -89,7 +89,7 @@ class MarkEntityDetectionsAction(unittest.TestCase):
 
         Patch the patch() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_type': "host_not_present", 'entity_id': 1}]
+        self.test_json["parameters"] = [{"entity_type": "host_not_present", "entity_id": 1}]
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)
@@ -104,7 +104,7 @@ class MarkEntityDetectionsAction(unittest.TestCase):
 
         Patch the patch() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_type': "host", 'entity_id': 2}]
+        self.test_json["parameters"] = [{"entity_type": "host", "entity_id": 2}]
 
         mock_patch.return_value.status_code = 404
         mock_patch.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -116,4 +116,4 @@ class MarkEntityDetectionsAction(unittest.TestCase):
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)
 
-        self.assertEqual(ret_val['status'], 'success')
+        self.assertEqual(ret_val["status"], "success")

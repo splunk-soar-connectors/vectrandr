@@ -1,6 +1,6 @@
 # File: vectrandr_config.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -27,6 +27,7 @@ import encryption_helper
 import requests
 from dotenv import load_dotenv
 
+
 # Load '.env' file to the environment variables.
 load_dotenv()
 
@@ -43,8 +44,8 @@ session_id = None
 
 cipher_text = encryption_helper.encrypt("<dummy_api_token>", DEFAULT_ASSET_ID)
 
-ACTION_HEADER = {'Authorization': 'Token <dummy_api_token>', 'User-agent': USER_AGENT}
-TOKEN_HEADER = {"Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json", 'User-agent': USER_AGENT}
+ACTION_HEADER = {"Authorization": "Token <dummy_api_token>", "User-agent": USER_AGENT}
+TOKEN_HEADER = {"Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json", "User-agent": USER_AGENT}
 
 TEST_JSON = {
     "action": "<action name>",
@@ -61,7 +62,7 @@ TEST_JSON = {
     "main_module": MAIN_MODULE,
     "debug_level": 3,
     "dec_key": DEFAULT_ASSET_ID,
-    "parameters": [{}]
+    "parameters": [{}],
 }
 
 
@@ -84,16 +85,9 @@ def get_session_id(connector, verify=False):
     # TODO: Remove this
     os.environ["USERNAME"] = "soar_local_admin"
     os.environ["PASSWORD"] = "password"  # pragma: allowlist secret  width="300" height="390"
-    data = {
-        "username": os.environ.get("USERNAME"),
-        "password": os.environ.get("PASSWORD"),
-        "csrfmiddlewaretoken": csrftoken
-    }
+    data = {"username": os.environ.get("USERNAME"), "password": os.environ.get("PASSWORD"), "csrfmiddlewaretoken": csrftoken}
 
-    headers = {
-        "Cookie": f"csrftoken={csrftoken}",
-        "Referer": login_url
-    }
+    headers = {"Cookie": f"csrftoken={csrftoken}", "Referer": login_url}
 
     # Logging into the Platform to get the session id
     r2 = requests.post(login_url, verify=verify, data=data, headers=headers)
@@ -111,17 +105,13 @@ def create_container(connector, verify=False):
     :return: Container id
     """
     sdi = uuid.uuid4()
-    container = {
-        "name": f"Added by unittest {sdi}",
-        "label": "events",
-        "source_data_identifier": f"{sdi}"
-    }
+    container = {"name": f"Added by unittest {sdi}", "label": "events", "source_data_identifier": f"{sdi}"}
 
     response = requests.post(
         f"{connector._get_phantom_base_url()}rest/container",
         verify=verify,
         auth=(os.environ.get("USERNAME"), os.environ.get("PASSWORD")),
-        json=container
+        json=container,
     )
 
     return response.json()["id"]

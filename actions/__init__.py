@@ -1,6 +1,6 @@
 # File: __init__.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -34,6 +34,5 @@ class BaseAction:
         :param param: Parameter dictionary
         """
         self._connector = connector
-        self._action_result = connector.add_action_result(
-            ActionResult(dict(param)))
+        self._action_result = connector.add_action_result(ActionResult(dict(param)))
         self._param = param

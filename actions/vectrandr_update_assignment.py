@@ -1,6 +1,6 @@
 # File: vectrandr_update_assignment.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -39,12 +39,10 @@ class UpdateAssignmentAction(BaseAction):
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 
-        url = f'{consts.VECTRA_API_VERSION}{consts.VECTRA_UPDATE_ASSIGNMENT_ENDPOINT.format(assignment_id=assignment_id)}'
-        payload = {
-            "assign_to_user_id": user_id
-        }
+        url = f"{consts.VECTRA_API_VERSION}{consts.VECTRA_UPDATE_ASSIGNMENT_ENDPOINT.format(assignment_id=assignment_id)}"
+        payload = {"assign_to_user_id": user_id}
 
-        ret_val, response = self._connector.util._make_rest_call_helper(url, self._action_result, method='put', json=payload)
+        ret_val, response = self._connector.util._make_rest_call_helper(url, self._action_result, method="put", json=payload)
 
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()

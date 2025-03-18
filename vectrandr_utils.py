@@ -1,6 +1,6 @@
 # File: vectrandr_utils.py
 #
-# Copyright (c) Vectra, 2024
+# Copyright (c) Vectra, 2024-2025
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -42,7 +42,7 @@ class RetVal(tuple):
         return tuple.__new__(RetVal, (val1, val2))
 
 
-class VectraNDRUtils(object):
+class VectraNDRUtils:
     """This class holds all the util methods."""
 
     def __init__(self, connector=None):
@@ -73,8 +73,7 @@ class VectraNDRUtils(object):
                 elif len(e.args) == 1:
                     error_message = e.args[0]
         except Exception as e:
-            self._connector.error_print(
-                f"Error occurred while fetching exception information. Details: {str(e)}")
+            self._connector.error_print(f"Error occurred while fetching exception information. Details: {e!s}")
 
         if not error_code:
             error_text = f"Error message: {error_message}"
@@ -121,12 +120,7 @@ class VectraNDRUtils(object):
         if response.status_code in consts.VECTRA_EMPTY_RESPONSE_STATUS_CODE:
             return RetVal(phantom.APP_SUCCESS, {})
 
-        return RetVal(
-            action_result.set_status(
-                phantom.APP_ERROR, consts.VECTRA_ERROR_EMPTY_RESPONSE.format(
-                    response.status_code)
-            )
-        )
+        return RetVal(action_result.set_status(phantom.APP_ERROR, consts.VECTRA_ERROR_EMPTY_RESPONSE.format(response.status_code)))
 
     def _process_html_response(self, response, action_result):
         """Process the html response returned from the server.
@@ -151,8 +145,7 @@ class VectraNDRUtils(object):
         except Exception:
             error_text = "Cannot parse error details"
 
-        message = consts.VECTRA_ERROR_GENERAL_HTML_MESSAGE.format(
-            status_code, response.reason, error_text)
+        message = consts.VECTRA_ERROR_GENERAL_HTML_MESSAGE.format(status_code, response.reason, error_text)
         message = message.replace("{", "{{").replace("}", "}}")
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message))
@@ -168,12 +161,7 @@ class VectraNDRUtils(object):
             resp_json = response.json()
         except Exception as e:
             error_message = self._get_error_message_from_exception(e)
-            return RetVal(
-                action_result.set_status(
-                    phantom.APP_ERROR, consts.VECTRA_ERROR_JSON_RESPONSE.format(
-                        error_message)
-                )
-            )
+            return RetVal(action_result.set_status(phantom.APP_ERROR, consts.VECTRA_ERROR_JSON_RESPONSE.format(error_message)))
 
         if 200 <= response.status_code < 399:
             return RetVal(phantom.APP_SUCCESS, resp_json)
@@ -184,39 +172,43 @@ class VectraNDRUtils(object):
 
     def _process_pcap_response(self, response, action_result):
         guid = uuid.uuid4()
-        if hasattr(Vault, 'get_vault_tmp_dir'):
-            vault_tmp_dir = Vault.get_vault_tmp_dir().rstrip('/')
-            local_dir = '{}/{}'.format(vault_tmp_dir, guid)
+        if hasattr(Vault, "get_vault_tmp_dir"):
+            vault_tmp_dir = Vault.get_vault_tmp_dir().rstrip("/")
+            local_dir = f"{vault_tmp_dir}/{guid}"
         else:
-            local_dir = '/opt/phantom/vault/tmp/{}'.format(guid)
+            local_dir = f"/opt/phantom/vault/tmp/{guid}"
 
-        self._connector.save_progress("Using temp directory: {0}".format(local_dir))
+        self._connector.save_progress(f"Using temp directory: {local_dir}")
 
         try:
             os.makedirs(local_dir)
         except Exception as e:
             return action_result.set_status(
-                phantom.APP_ERROR, "Unable to create temporary vault folder.", self._get_error_message_from_exception(e))
+                phantom.APP_ERROR, "Unable to create temporary vault folder.", self._get_error_message_from_exception(e)
+            )
 
         response_headers = response.headers
         filename = response_headers["Content-Disposition"].split("filename=")[-1]
-        filename = filename.replace("\"", "")
-        file_path = "{}/{}".format(local_dir, filename)
+        filename = filename.replace('"', "")
+        file_path = f"{local_dir}/{filename}"
         self.file_path = file_path
 
         try:
-            with open(file_path, 'wb') as f:
+            with open(file_path, "wb") as f:
                 for chunk in response.iter_content(chunk_size=5 * 1024 * 1024):
                     f.write(chunk)
         except Exception as e:
-            return RetVal(action_result.set_status(
-                phantom.APP_ERROR, "Unable to write file to disk. Error: {0}".format(self._get_error_message_from_exception(e))), None)
+            return RetVal(
+                action_result.set_status(phantom.APP_ERROR, f"Unable to write file to disk. Error: {self._get_error_message_from_exception(e)}"),
+                None,
+            )
 
         if 200 <= response.status_code <= 399:
             return RetVal(phantom.APP_SUCCESS, None)
 
-        message = "Error from server. Status Code: {0} Data from server: {1}".format(
-            response.status_code, response.text.replace('{', '{{').replace('}', '}}'))
+        message = "Error from server. Status Code: {} Data from server: {}".format(
+            response.status_code, response.text.replace("{", "{{").replace("}", "}}")
+        )
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
@@ -229,8 +221,7 @@ class VectraNDRUtils(object):
         """
         # store the r_text in debug data, it will get dumped in the logs if the action fails
         if hasattr(action_result, "add_debug_data"):
-            action_result.add_debug_data(
-                {"r_status_code": response.status_code})
+            action_result.add_debug_data({"r_status_code": response.status_code})
             if not is_stream_download:
                 action_result.add_debug_data({"r_text": response.text})
             action_result.add_debug_data({"r_headers": response.headers})
@@ -245,7 +236,7 @@ class VectraNDRUtils(object):
         if "html" in response.headers.get("Content-Type", ""):
             return self._process_html_response(response, action_result)
 
-        if 'force-download' in response.headers.get('Content-Type', ''):
+        if "force-download" in response.headers.get("Content-Type", ""):
             return self._process_pcap_response(response, action_result)
 
         # Process each 'Content-Type' of response separately
@@ -256,10 +247,9 @@ class VectraNDRUtils(object):
             return self._process_empty_response(response, action_result)
 
         # everything else is actually an error at this point
-        message = "Can't process response from server. {}".format(consts.VECTRA_ERROR_GENERAL_MESSAGE.format(
-            response.status_code,
-            response.text.replace("{", "{{").replace("}", "}}")
-        ))
+        message = "Can't process response from server. {}".format(
+            consts.VECTRA_ERROR_GENERAL_MESSAGE.format(response.status_code, response.text.replace("{", "{{").replace("}", "}}"))
+        )
 
         # Large HTML pages may be returned incase of 500 error from server.
         # Use default error message in place of large HTML page.
@@ -284,10 +274,7 @@ class VectraNDRUtils(object):
             data = json.loads(response.text)
         except Exception as e:
             error_message = self._get_error_message_from_exception(e)
-            self._connector.debug_print(
-                "Failed while parsing the response "
-                "{}".format(error_message)
-            )
+            self._connector.debug_print(f"Failed while parsing the response {error_message}")
             return data
 
         if isinstance(data, dict) and data.get("failed", False) and data.get("message"):
@@ -306,8 +293,7 @@ class VectraNDRUtils(object):
             dict: A dictionary containing the artifact IDs as keys and the corresponding IDs as values.
             Returns an empty dictionary if no artifact is found.
         """
-        url = consts.SPLUNK_SOAR_GET_CONTAINER_ARTIFACT_ENDPOINT.format(
-            url=self._connector.get_phantom_base_url(), container_id=container_id)
+        url = consts.SPLUNK_SOAR_GET_CONTAINER_ARTIFACT_ENDPOINT.format(url=self._connector.get_phantom_base_url(), container_id=container_id)
         artifact_ids = {}
         page = 0
         while True:
@@ -319,12 +305,12 @@ class VectraNDRUtils(object):
 
             resp_json = self._common_message_handler_for_soar(r, "querying for artifact")
 
-            if (resp_json.get('count', 0) <= 0):
+            if resp_json.get("count", 0) <= 0:
                 self._connector.debug_print("No artifact matched")
                 return artifact_ids
 
             try:
-                artifact_ids.update({artifact.get('source_data_identifier'): artifact.get('id') for artifact in resp_json.get('data', [])})
+                artifact_ids.update({artifact.get("source_data_identifier"): artifact.get("id") for artifact in resp_json.get("data", [])})
             except Exception as e:
                 self._connector.debug_print("Artifact results are not proper: ", e)
                 return artifact_ids
@@ -347,7 +333,7 @@ class VectraNDRUtils(object):
             None
         """
         url = consts.SPLUNK_SOAR_ARTIFACT_ENDPOINT.format(url=self._connector.get_phantom_base_url(), artifact_id=artifact_id)
-        self._connector.debug_print("Deleting artifact with id {}".format(artifact_id))
+        self._connector.debug_print(f"Deleting artifact with id {artifact_id}")
         try:
             resp = requests.delete(url, verify=consts.VERIFY_SERVER_CERT_FAIL)
         except Exception as e:
@@ -371,15 +357,14 @@ class VectraNDRUtils(object):
             return RetVal(action_result.set_status(phantom.APP_ERROR, f"Invalid method: {method}"))
 
         # Create a URL to connect to
-        next_page_url = kwargs.pop('next_page_url', None)
-        url = next_page_url or f'{self._connector.config.get("base_url").rstrip("/")}{endpoint}'
+        next_page_url = kwargs.pop("next_page_url", None)
+        url = next_page_url or f"{self._connector.config.get('base_url').rstrip('/')}{endpoint}"
 
-        is_stream_download = kwargs.pop('is_stream_download', False)
+        is_stream_download = kwargs.pop("is_stream_download", False)
 
         no_of_retries = consts.VECTRA_NO_OF_RETRIES
 
-        user_agent = "VectraNDR-SplunkSOAR-{}".format(
-            self._connector.get_app_json().get('app_version'))
+        user_agent = "VectraNDR-SplunkSOAR-{}".format(self._connector.get_app_json().get("app_version"))
         headers.update({"User-agent": user_agent})
 
         while no_of_retries:
@@ -389,27 +374,19 @@ class VectraNDRUtils(object):
                     timeout=consts.VECTRA_REQUEST_TIMEOUT,
                     headers=headers,
                     params=params,
-                    verify=self._connector.config.get(
-                        "verify_server_certificate", False),
+                    verify=self._connector.config.get("verify_server_certificate", False),
                     stream=is_stream_download,
-                    **kwargs
+                    **kwargs,
                 )
             except Exception as e:
                 error_message = self._get_error_message_from_exception(e)
-                return RetVal(
-                    action_result.set_status(
-                        phantom.APP_ERROR, consts.VECTRA_ERROR_REST_CALL.format(
-                            error_message)
-                    )
-                )
+                return RetVal(action_result.set_status(phantom.APP_ERROR, consts.VECTRA_ERROR_REST_CALL.format(error_message)))
 
             if response.status_code not in [429, 500]:
                 break
 
-            self._connector.save_progress(
-                f"Received {response.status_code} status code from the server")
-            self._connector.save_progress(
-                "Retrying after {} second(s)...".format(consts.VECTRA_WAIT_TIME_FOR_RETRY))
+            self._connector.save_progress(f"Received {response.status_code} status code from the server")
+            self._connector.save_progress(f"Retrying after {consts.VECTRA_WAIT_TIME_FOR_RETRY} second(s)...")
             time.sleep(consts.VECTRA_WAIT_TIME_FOR_RETRY)
             no_of_retries -= 1
 
@@ -431,8 +408,7 @@ class VectraNDRUtils(object):
         if self._api_token:
             headers.update({"Authorization": f"Token {self._api_token}"})
 
-        ret_val, resp_json = self._make_rest_call(
-            endpoint, action_result, method, headers=headers, params=params, **kwargs)
+        ret_val, resp_json = self._make_rest_call(endpoint, action_result, method, headers=headers, params=params, **kwargs)
         if phantom.is_fail(ret_val):
             return RetVal(action_result.get_status())
 
@@ -450,13 +426,13 @@ class VectraNDRUtils(object):
         next_page_url = None
 
         while True:
-            self._connector.debug_print("hitting url {}".format(endpoint))
+            self._connector.debug_print(f"hitting url {endpoint}")
 
-            ret_val, response = self._make_rest_call_helper(endpoint, action_result, method='get', params=params, next_page_url=next_page_url)
+            ret_val, response = self._make_rest_call_helper(endpoint, action_result, method="get", params=params, next_page_url=next_page_url)
             if phantom.is_fail(ret_val):
                 return action_result.get_status(), None
 
-            res_val = response.get('results')
+            res_val = response.get("results")
             if res_val:
                 list_items.extend(res_val)
 
@@ -464,8 +440,8 @@ class VectraNDRUtils(object):
                 list_items = list_items[:limit]
                 break
 
-            next_link = response.get('next')
-            self._connector.debug_print("next_link url {}".format(next_link))
+            next_link = response.get("next")
+            self._connector.debug_print(f"next_link url {next_link}")
             if next_link:
                 next_page_url = next_link
                 params.clear()
@@ -489,9 +465,7 @@ class VectraNDRUtils(object):
         url = f"{consts.VECTRA_API_VERSION}{consts.VECTRA_DETECTIONS_ENDPOINT}"
         payload = {"detectionIdList": detection_ids, "mark_as_fixed": mark}
 
-        ret_val, response = self._make_rest_call_helper(
-            url, action_result, "patch", json=payload
-        )
+        ret_val, response = self._make_rest_call_helper(url, action_result, "patch", json=payload)
         if phantom.is_fail(ret_val):
             return action_result.get_status(), None
 
@@ -535,8 +509,7 @@ class VectraNDRUtils(object):
         else:
             ids_list = [id.strip() for id in ids.split(",") if id.strip()]
         if not ids_list and required:  # If required param
-            return action_result.set_status(
-                phantom.APP_ERROR, "Please provide a valid value in the '{param}' action parameter".format(param=param)), None
+            return action_result.set_status(phantom.APP_ERROR, f"Please provide a valid value in the '{param}' action parameter"), None
         return phantom.APP_SUCCESS, ids_list
 
     def _get_entity_related_tags(self, action_result, entity_id, entity_type):
@@ -552,11 +525,11 @@ class VectraNDRUtils(object):
             tuple: A tuple containing the status of the action and a list of all related tags.
         """
         url = f"{consts.VECTRA_API_VERSION}{consts.VECTRA_ADD_REMOVE_TAGS_ENDPOINT.format(entity_type=entity_type, entity_id=entity_id)}"
-        ret_val, response = self._make_rest_call_helper(url, action_result, method='get')
+        ret_val, response = self._make_rest_call_helper(url, action_result, method="get")
         if phantom.is_fail(ret_val):
             return action_result.get_status(), None
 
-        all_tags = response.get('tags', [])
+        all_tags = response.get("tags", [])
         return phantom.APP_SUCCESS, all_tags
 
     def _add_remove_entity_related_tags(self, action_result, entity_id, entity_type, tags):
@@ -574,7 +547,7 @@ class VectraNDRUtils(object):
         """
         url = f"{consts.VECTRA_API_VERSION}{consts.VECTRA_ADD_REMOVE_TAGS_ENDPOINT.format(entity_type=entity_type, entity_id=entity_id)}"
         payload = {"tags": tags}
-        ret_val, response = self._make_rest_call_helper(url, action_result, method='patch', json=payload)
+        ret_val, response = self._make_rest_call_helper(url, action_result, method="patch", json=payload)
         if phantom.is_fail(ret_val):
             return action_result.get_status(), None
         return phantom.APP_SUCCESS, response
@@ -601,15 +574,15 @@ class VectraNDRUtils(object):
             return action_result.set_status(phantom.APP_SUCCESS), str(outcomes_map[outcome])
 
         return action_result.set_status(
-            phantom.APP_ERROR, "Invalid outcome has been provided. Please provide valid outcome value from {}".format(
-                list(outcomes_map.keys()))), None
+            phantom.APP_ERROR, f"Invalid outcome has been provided. Please provide valid outcome value from {list(outcomes_map.keys())}"
+        ), None
 
     def _create_critical_severity(self):
         """Create critical severity for splunk SOAR."""
         url = consts.SPLUNK_SOAR_CREATE_SEVERITY_ENDPOINT.format(url=self._connector.get_phantom_base_url())
         resp = None
         try:
-            added_severity = consts.VECTRA_SEVERITY + [{"color": "light_grey", "name": "default", "is_default": True}]
+            added_severity = [*consts.VECTRA_SEVERITY, {"color": "light_grey", "name": "default", "is_default": True}]
             resp = requests.post(url, verify=consts.VERIFY_SERVER_CERT_FAIL, data=json.dumps(added_severity))
             resp = requests.get(url, verify=consts.VERIFY_SERVER_CERT_FAIL)
             data = self._common_message_handler_for_soar(resp, "getting severity")
@@ -630,6 +603,6 @@ class VectraNDRUtils(object):
             if default_sid:
                 _ = requests.delete(f"{url}/{default_sid}", verify=consts.VERIFY_SERVER_CERT_FAIL)
         except Exception as e:
-            self._connector.debug_print("Error occurred while calling the severity api {}".format(str(e)))
+            self._connector.debug_print(f"Error occurred while calling the severity api {e!s}")
         if resp:
             self._common_message_handler_for_soar(resp, "creating severity")

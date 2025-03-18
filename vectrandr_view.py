@@ -1,6 +1,6 @@
 # File: vectrandr_view.py
 #
-# Copyright (c) Vectra, 2024
+# Copyright (c) Vectra, 2024-2025
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -22,7 +22,6 @@
 
 
 def _get_ctx_result(result, provides):
-
     ctx_result = {}
 
     param = result.get_param()
@@ -34,23 +33,22 @@ def _get_ctx_result(result, provides):
     if len(list(param.keys())) > 1:
         ctx_result["check_param"] = True
 
-    ctx_result['param'] = param
+    ctx_result["param"] = param
     ctx_result["action_name"] = provides
     if summary:
-        ctx_result['summary'] = summary
+        ctx_result["summary"] = summary
 
     if not data:
-        ctx_result['data'] = {}
+        ctx_result["data"] = {}
         return ctx_result
 
-    ctx_result['data'] = data
+    ctx_result["data"] = data
 
     return ctx_result
 
 
 def display_view(provides, all_app_runs, context):
-
-    context['results'] = results = []
+    context["results"] = results = []
     for summary, action_results in all_app_runs:
         for result in action_results:
             ctx_result = _get_ctx_result(result, provides)
@@ -58,11 +56,11 @@ def display_view(provides, all_app_runs, context):
                 continue
             results.append(ctx_result)
 
-    if provides in ['describe detection']:
-        return 'views/vectrandr_describe_detection.html'
-    elif provides in ['add note', 'update note']:
-        return 'views/vectrandr_add_update_note.html'
-    elif provides in ['add tags', 'remove tags']:
-        return 'views/vectrandr_add_remove_tags.html'
-    elif provides in ['add assignment', 'update assignment']:
-        return 'views/vectrandr_add_update_assignment.html'
+    if provides in ["describe detection"]:
+        return "views/vectrandr_describe_detection.html"
+    elif provides in ["add note", "update note"]:
+        return "views/vectrandr_add_update_note.html"
+    elif provides in ["add tags", "remove tags"]:
+        return "views/vectrandr_add_remove_tags.html"
+    elif provides in ["add assignment", "update assignment"]:
+        return "views/vectrandr_add_update_assignment.html"

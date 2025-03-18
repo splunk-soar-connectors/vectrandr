@@ -1,6 +1,6 @@
 # File: vectrandr_mark_detection.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -30,14 +30,11 @@ class MarkDetectionAction(BaseAction):
 
     def execute(self):
         """Execute the mark detection action."""
-        ret_val, detection_id = self._connector.util._validate_integer(
-            self._action_result, self._param['detection_id'], "detection_id", True)
+        ret_val, detection_id = self._connector.util._validate_integer(self._action_result, self._param["detection_id"], "detection_id", True)
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 
-        ret_val, response = self._connector.util._mark_detection(
-            self._action_result, [detection_id], "True"
-        )
+        ret_val, response = self._connector.util._mark_detection(self._action_result, [detection_id], "True")
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 

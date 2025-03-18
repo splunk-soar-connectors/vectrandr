@@ -1,18 +1,19 @@
 {% extends 'widgets/widget_template.html' %}
 {% load custom_template %}
-
-{% block custom_title_prop %}{% if title_logo %}style="background-size: auto 60%; background-position: 50%;
-background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo }}');"{% endif %}{% endblock %}
+{% block custom_title_prop %}
+  {% if title_logo %}
+    style="background-size: auto 60%; background-position: 50%;
+    background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo }}');"
+  {% endif %}
+{% endblock %}
 {% block title1 %}{{ title1 }}{% endblock %}
 {% block title2 %}{{ title2 }}{% endblock %}
-{% block custom_tools %}
-{% endblock %}
-
-{% block widget_content %} <!-- Main Start Block -->
-
-<!-- # File: vectrandr_add_update_assignment.html
+{% block custom_tools %}{% endblock %}
+{% block widget_content %}
+  <!-- Main Start Block -->
+  <!-- # File: vectrandr_add_update_assignment.html
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -32,8 +33,7 @@ background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 -->
-
-<style>
+  <style>
     .vectrandr a:hover {
         text-decoration: underline;
     }
@@ -100,82 +100,81 @@ background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo
     .vectrandr a.nowrap {
         white-space: nowrap;
     }
-</style>
-<div class="vectrandr" style="overflow: auto; width: 100%; height: 100%; padding-left:10px; padding-right:10px">
+  </style>
+  <div class="vectrandr"
+       style="overflow: auto;
+              width: 100%;
+              height: 100%;
+              padding-left:10px;
+              padding-right:10px">
     <!-- Main Div -->
-    {% for result in results %} <!-- loop for each result -->
-    <br>
-
-    <!------------------- For each Result ---------------------->
-    {% if not result.data %}
-    <h4 class="wf-h4-style">No data found</h4>
-
-    {% else %}
-    <div class="results">
-        <h4 class="wf-h4-style">Assignment details</h4>
-
-        <!--Default View-->
-        <table class="wf-table-horizontal datatable">
+    {% for result in results %}
+      <!-- loop for each result -->
+      <br>
+      <!------------------- For each Result ---------------------->
+      {% if not result.data %}
+        <h4 class="wf-h4-style">No data found</h4>
+      {% else %}
+        <div class="results">
+          <h4 class="wf-h4-style">Assignment details</h4>
+          <!--Default View-->
+          <table class="wf-table-horizontal datatable">
             <thead>
-                <tr>
-                    <th>Assignment ID</th>
-                    <th>Entity ID</th>
-                    <th>User ID</th>
-                </tr>
+              <tr>
+                <th>Assignment ID</th>
+                <th>Entity ID</th>
+                <th>User ID</th>
+              </tr>
             </thead>
             <tbody>
-                {% for data in result.data %}
+              {% for data in result.data %}
                 <tr>
+                  <td style="max-width:150px; word-break: break-all;">
+                    <a href="javascript:;"
+                       onclick="context_menu(this, [{'contains': ['assignment id'], 'value':{{ data.id }} }], 0, {{ container.id }}, null, false);">
+                      {{ data.id }}
+                      &nbsp;
+                      <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                    </a>
+                  </td>
+                  {% if data.host_id %}
                     <td style="max-width:150px; word-break: break-all;">
-                        <a href="javascript:;" onclick="context_menu(this, [{'contains': ['assignment id'],
-                                    'value':{{ data.id }} }], 0,
-                                    {{ container.id }}, null, false);">
-                            {{ data.id }}
-                            &nbsp;
-                            <span class="fa fa-caret-down" style="font-size: smaller;"></span>
-                        </a>
+                      <a href="javascript:;"
+                         onclick="context_menu(this, [{'contains': ['entity id'], 'value':{{ data.host_id }} }], 0, {{ container.id }}, null, false);">
+                        {{ data.host_id }}
+                        &nbsp;
+                        <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                      </a>
                     </td>
-                    {% if data.host_id %}
+                  {% else %}
                     <td style="max-width:150px; word-break: break-all;">
-                        <a href="javascript:;" onclick="context_menu(this, [{'contains': ['entity id'],
-                                                        'value':{{ data.host_id }} }], 0,
-                                                        {{ container.id }}, null, false);">
-                            {{ data.host_id }}
-                            &nbsp;
-                            <span class="fa fa-caret-down" style="font-size: smaller;"></span>
-                        </a>
+                      <a href="javascript:;"
+                         onclick="context_menu(this, [{'contains': ['entity id'], 'value':{{ data.account_id }} }], 0, {{ container.id }}, null, false);">
+                        {{ data.account_id }}
+                        &nbsp;
+                        <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                      </a>
                     </td>
-                    {%else%}
-                    <td style="max-width:150px; word-break: break-all;">
-                        <a href="javascript:;" onclick="context_menu(this, [{'contains': ['entity id'],
-                                                                            'value':{{ data.account_id }} }], 0,
-                                                                            {{ container.id }}, null, false);">
-                            {{ data.account_id }}
-                            &nbsp;
-                            <span class="fa fa-caret-down" style="font-size: smaller;"></span>
-                        </a>
-                    </td>
-                    {% endif %}
-                    <td style="max-width:150px; word-break: break-all;">
-                        <a href="javascript:;" onclick="context_menu(this, [{'contains': ['user id'],
-                                                        'value':{{ data.assigned_to.id }} }], 0,
-                                                        {{ container.id }}, null, false);">
-                            {{ data.assigned_to.id }}
-                            &nbsp;
-                            <span class="fa fa-caret-down" style="font-size: smaller;"></span>
-                        </a>
-                    </td>
+                  {% endif %}
+                  <td style="max-width:150px; word-break: break-all;">
+                    <a href="javascript:;"
+                       onclick="context_menu(this, [{'contains': ['user id'], 'value':{{ data.assigned_to.id }} }], 0, {{ container.id }}, null, false);">
+                      {{ data.assigned_to.id }}
+                      &nbsp;
+                      <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                    </a>
+                  </td>
                 </tr>
-                {% endfor %}
+              {% endfor %}
             </tbody>
-        </table>
-    </div>
-    {% endif %}
-    {% endfor %} <!-- loop for each result end -->
-</div> <!-- Main Div -->
-
-
-<script>
+          </table>
+        </div>
+      {% endif %}
+    {% endfor %}
+    <!-- loop for each result end -->
+  </div>
+  <!-- Main Div -->
+  <script>
     $.extend(true, $.fn.dataTable.defaults, {
         "searching": false,
         "bLengthChange": false,
@@ -194,5 +193,6 @@ background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo
     });
     $.fn.DataTable.ext.pager.numbers_length = 5;
     $('.datatable').DataTable();
-</script>
-{% endblock %} <!-- Main Start Block -->
+  </script>
+{% endblock %}
+<!-- Main Start Block -->
