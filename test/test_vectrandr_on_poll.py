@@ -1,6 +1,6 @@
 # File: test_vectrandr_on_poll.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -57,35 +57,39 @@ class TestOnPollAction(unittest.TestCase):
         Token is available in the state file.
         Mock the get() to return the valid response.
         """
-        self.test_json.get('config').update({"on_poll_start_time": "2023-05-24T14:13:34", "entity_type": 'Host',
-                                             "entity_tags": "ckp", "detection_category": "Reconnaissance",
-                                             "detection_type": "Reconnaissance"})
+        self.test_json.get("config").update(
+            {
+                "on_poll_start_time": "2023-05-24T14:13:34",
+                "entity_type": "Host",
+                "entity_tags": "ckp",
+                "detection_category": "Reconnaissance",
+                "detection_type": "Reconnaissance",
+            }
+        )
         self.test_json.update({"user_session_token": vectrandr_config.get_session_id(self.connector)})
         entity_type = "hosts"
         mock_get.get(
             f"{vectrandr_config.DUMMY_BASE_URL}{consts.VECTRA_API_VERSION}{consts.VECTRA_POLL_ENTITY_ENDPOINT.format(entity_type=entity_type)}",
             status_code=200,
             headers=vectrandr_config.DEFAULT_HEADERS,
-            json=vectrandr_responses.GET_ENTITY_POLL_RESP
+            json=vectrandr_responses.GET_ENTITY_POLL_RESP,
         )
 
         mock_get.get(
             f"{vectrandr_config.DUMMY_BASE_URL}{consts.VECTRA_API_2_2_VERSION}{consts.VECTRA_SEARCH_DETECTIONS_ENDPOINT}",
             status_code=200,
             headers=vectrandr_config.DEFAULT_HEADERS,
-            json=vectrandr_responses.GET_DETECTION_POLL_RESP
+            json=vectrandr_responses.GET_DETECTION_POLL_RESP,
         )
         SOAR_GET_ARTIFACTS_ENDPOINT = consts.SPLUNK_SOAR_GET_CONTAINER_ARTIFACT_ENDPOINT.format(
-            url=self.connector.get_phantom_base_url(), container_id=vectrandr_config.create_container(self.connector))
+            url=self.connector.get_phantom_base_url(), container_id=vectrandr_config.create_container(self.connector)
+        )
         mock_get.get(
-            SOAR_GET_ARTIFACTS_ENDPOINT,
-            status_code=200,
-            headers=vectrandr_config.DEFAULT_HEADERS,
-            json=vectrandr_responses.GET_ARTIFACT_DETAILS
+            SOAR_GET_ARTIFACTS_ENDPOINT, status_code=200, headers=vectrandr_config.DEFAULT_HEADERS, json=vectrandr_responses.GET_ARTIFACT_DETAILS
         )
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)
 
-        self.assertEqual(ret_val['result_data'][0]['status'], 'success')
-        self.assertEqual(ret_val['result_summary']['total_objects_successful'], ret_val['result_summary']['total_objects'])
+        self.assertEqual(ret_val["result_data"][0]["status"], "success")
+        self.assertEqual(ret_val["result_summary"]["total_objects_successful"], ret_val["result_summary"]["total_objects"])

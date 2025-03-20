@@ -1,6 +1,6 @@
 # File: test_vectrandr_add_assignment.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -49,7 +49,7 @@ class AddAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_id': 2578, "entity_type": "host", "user_id": 20}]
+        self.test_json["parameters"] = [{"entity_id": 2578, "entity_type": "host", "user_id": 20}]
 
         mock_post.return_value.status_code = 201
         mock_post.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -69,7 +69,7 @@ class AddAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_id': 21112, "entity_type": "host", "user_id": 59}]
+        self.test_json["parameters"] = [{"entity_id": 21112, "entity_type": "host", "user_id": 59}]
 
         mock_post.return_value.status_code = 400
         mock_post.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -89,7 +89,7 @@ class AddAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_id': 2578, "entity_type": "host", "user_id": 55555559}]
+        self.test_json["parameters"] = [{"entity_id": 2578, "entity_type": "host", "user_id": 55555559}]
 
         mock_post.return_value.status_code = 400
         mock_post.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -108,7 +108,7 @@ class AddAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_id': 2578, "entity_type": "account_not_present", "user_id": 59}]
+        self.test_json["parameters"] = [{"entity_id": 2578, "entity_type": "account_not_present", "user_id": 59}]
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)

@@ -1,6 +1,6 @@
 # File: vectrandr_download_pcap.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -36,16 +36,13 @@ class DownloadPCAPAction(BaseAction):
         """Execute the download pcap action."""
         vault_id = None
 
-        ret_val, detection_id = self._connector.util._validate_integer(
-            self._action_result, self._param['detection_id'], "detection_id", True)
+        ret_val, detection_id = self._connector.util._validate_integer(self._action_result, self._param["detection_id"], "detection_id", True)
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 
-        url = f'{consts.VECTRA_API_VERSION}{consts.VECTRA_DOWNLOAD_PCAP_ENDPOINT.format(detection_id=detection_id)}'
+        url = f"{consts.VECTRA_API_VERSION}{consts.VECTRA_DOWNLOAD_PCAP_ENDPOINT.format(detection_id=detection_id)}"
 
-        ret_val, _ = self._connector.util._make_rest_call_helper(
-            url, self._action_result, is_stream_download=True
-        )
+        ret_val, _ = self._connector.util._make_rest_call_helper(url, self._action_result, is_stream_download=True)
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 
@@ -54,13 +51,15 @@ class DownloadPCAPAction(BaseAction):
         if file_path:
             try:
                 ret_val, message, vault_id = phantom_rules.vault_add(
-                    container=self._connector.get_container_id(), file_location=file_path, file_name=file_name)
+                    container=self._connector.get_container_id(), file_location=file_path, file_name=file_name
+                )
                 if phantom.is_fail(ret_val):
                     return self._action_result.set_status(phantom.APP_ERROR, message)
             except Exception as e:
                 return self._action_result.set_status(
-                    phantom.APP_ERROR, "Unable to store file in Splunk SOAR's vault. Error: {0}"
-                    .format(self._connector.util._get_error_message_from_exception(e)))
+                    phantom.APP_ERROR,
+                    f"Unable to store file in Splunk SOAR's vault. Error: {self._connector.util._get_error_message_from_exception(e)}",
+                )
 
         # Cleanup temp dir
         try:

@@ -1,6 +1,6 @@
 # File: test_vectrandr_update_assignment.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -49,7 +49,7 @@ class UpdateAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'assignment_id': 2578, "user_id": 59}]
+        self.test_json["parameters"] = [{"assignment_id": 2578, "user_id": 59}]
 
         mock_put.return_value.status_code = 201
         mock_put.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -69,7 +69,7 @@ class UpdateAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'assignment_id': 21112, "user_id": 59}]
+        self.test_json["parameters"] = [{"assignment_id": 21112, "user_id": 59}]
 
         mock_put.return_value.status_code = 400
         mock_put.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -89,7 +89,7 @@ class UpdateAssignmentAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'assignment_id': 2578, "user_id": 55555559}]
+        self.test_json["parameters"] = [{"assignment_id": 2578, "user_id": 55555559}]
 
         mock_put.return_value.status_code = 400
         mock_put.return_value.headers = vectrandr_config.DEFAULT_HEADERS

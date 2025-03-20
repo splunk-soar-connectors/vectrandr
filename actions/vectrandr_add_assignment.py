@@ -1,6 +1,6 @@
 # File: vectrandr_add_assignment.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -44,13 +44,10 @@ class AddAssignmentAction(BaseAction):
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 
-        url = f'{consts.VECTRA_API_VERSION}{consts.VECTRA_ADD_ASSIGNMENT_ENDPOINT}'
-        payload = {
-            f"assign_{entity_type}_id": entity_id,
-            "assign_to_user_id": user_id
-        }
+        url = f"{consts.VECTRA_API_VERSION}{consts.VECTRA_ADD_ASSIGNMENT_ENDPOINT}"
+        payload = {f"assign_{entity_type}_id": entity_id, "assign_to_user_id": user_id}
 
-        ret_val, response = self._connector.util._make_rest_call_helper(url, self._action_result, method='post', json=payload)
+        ret_val, response = self._connector.util._make_rest_call_helper(url, self._action_result, method="post", json=payload)
 
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()

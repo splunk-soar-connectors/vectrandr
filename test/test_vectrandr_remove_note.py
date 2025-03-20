@@ -1,6 +1,6 @@
 # File: test_vectrandr_remove_note.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -49,7 +49,7 @@ class RemoveNoteAction(unittest.TestCase):
         Token is available in the state file.
         Patch the delete() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_id': 212, "entity_type": "host", "note_id": 123}]
+        self.test_json["parameters"] = [{"entity_id": 212, "entity_type": "host", "note_id": 123}]
 
         mock_delete.return_value.status_code = 204
         mock_delete.return_value.headers = {}
@@ -69,7 +69,7 @@ class RemoveNoteAction(unittest.TestCase):
         Token is available in the state file.
         Patch the delete() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_id': 212, "entity_type": "host", "note_id": 456}]
+        self.test_json["parameters"] = [{"entity_id": 212, "entity_type": "host", "note_id": 456}]
 
         mock_delete.return_value.status_code = 404
         mock_delete.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -88,7 +88,7 @@ class RemoveNoteAction(unittest.TestCase):
         Token is available in the state file.
         Patch the delete() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_type': "account_not_present", 'entity_id': 1, "note_id": 123}]
+        self.test_json["parameters"] = [{"entity_type": "account_not_present", "entity_id": 1, "note_id": 123}]
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)

@@ -1,6 +1,6 @@
 # File: vectrandr_update_note.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -31,31 +31,28 @@ class UpdateNoteAction(BaseAction):
 
     def execute(self):
         """Execute the update note action."""
-        entity_type = self._param['entity_type'].lower()
-        note = self._param['note']
+        entity_type = self._param["entity_type"].lower()
+        note = self._param["note"]
 
-        ret_val, entity_id = self._connector.util._validate_integer(
-            self._action_result, self._param['entity_id'], "entity_id", True)
+        ret_val, entity_id = self._connector.util._validate_integer(self._action_result, self._param["entity_id"], "entity_id", True)
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 
         if entity_type not in consts.VECTRA_VALID_ENTITIES:
             return self._action_result.set_status(phantom.APP_ERROR, consts.VECTRA_ERROR_INVALID_ENTITY)
 
-        ret_val, note_id = self._connector.util._validate_integer(
-            self._action_result, self._param['note_id'], "note_id", True)
+        ret_val, note_id = self._connector.util._validate_integer(self._action_result, self._param["note_id"], "note_id", True)
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()
 
-        url = f'''{consts.VECTRA_API_VERSION}{consts.VECTRA_UPDATE_REMOVE_NOTE_ENDPOINT.format(
-            entity_type=consts.ENTITY_TYPE_MAPPING[entity_type], entity_id=entity_id, note_id=note_id)}'''
-        payload = {
-            "note": note
-        }
+        url = f"""{consts.VECTRA_API_VERSION}{
+            consts.VECTRA_UPDATE_REMOVE_NOTE_ENDPOINT.format(
+                entity_type=consts.ENTITY_TYPE_MAPPING[entity_type], entity_id=entity_id, note_id=note_id
+            )
+        }"""
+        payload = {"note": note}
 
-        ret_val, response = self._connector.util._make_rest_call_helper(
-            url, self._action_result, "patch", json=payload
-        )
+        ret_val, response = self._connector.util._make_rest_call_helper(url, self._action_result, "patch", json=payload)
 
         if phantom.is_fail(ret_val):
             return self._action_result.get_status()

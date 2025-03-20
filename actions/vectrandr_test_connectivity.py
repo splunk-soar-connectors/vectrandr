@@ -1,6 +1,6 @@
 # File: vectrandr_test_connectivity.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -32,12 +32,10 @@ class TestConnectivityAction(BaseAction):
         """Execute the test connectivity action."""
         self._connector.util._create_critical_severity()
         self._connector.save_progress("Getting list of entities")
-        url = f'{consts.VECTRA_API_VERSION}{consts.VECTRA_TEST_CONNECTIVITY_ENDPOINT}'
-        ret_val, _ = self._connector.util._make_rest_call_helper(
-            url, self._action_result, params={'page_size': 1})
+        url = f"{consts.VECTRA_API_VERSION}{consts.VECTRA_TEST_CONNECTIVITY_ENDPOINT}"
+        ret_val, _ = self._connector.util._make_rest_call_helper(url, self._action_result, params={"page_size": 1})
         if phantom.is_fail(ret_val):
-            self._connector.save_progress(
-                consts.VECTRA_ERROR_TEST_CONNECTIVITY)
+            self._connector.save_progress(consts.VECTRA_ERROR_TEST_CONNECTIVITY)
             return self._action_result.get_status()
 
         self._connector.save_progress(consts.VECTRA_SUCCESS_TEST_CONNECTIVITY)

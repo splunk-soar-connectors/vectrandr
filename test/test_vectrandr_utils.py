@@ -1,6 +1,6 @@
 # File: test_vectraxdr_utils.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -37,10 +37,12 @@ from vectrandr_utils import RetVal, VectraNDRUtils
 class TestRetValClass(unittest.TestCase):
     """Class to test the RetVal"""
 
-    @parameterized.expand([
-        ["single_value", [True], (True, None)],
-        ["two_value", [True, {'key': 'value'}], (True, {'key': 'value'})],
-    ])
+    @parameterized.expand(
+        [
+            ["single_value", [True], (True, None)],
+            ["two_value", [True, {"key": "value"}], (True, {"key": "value"})],
+        ]
+    )
     def test_ret_val_pass(self, _, input_val, expected):
         """Tests the valid cases for the ret_val class."""
         output = RetVal(*input_val)
@@ -56,27 +58,31 @@ class TestValidateIntegerMethod(unittest.TestCase):
         self.action_result = ActionResult(dict())
         return super().setUp()
 
-    @parameterized.expand([
-        ["zero_allowed", "0", 0, ""],
-        ["integer", "10", 10, ""],
-    ])
+    @parameterized.expand(
+        [
+            ["zero_allowed", "0", 0, ""],
+            ["integer", "10", 10, ""],
+        ]
+    )
     def test_validate_integer_pass(self, _, input_value, expected_value, expected_message):
         """Test the valid cases for the validate integer method."""
-        ret_val, output = self.util._validate_integer(self.action_result, input_value, 'page', True)
+        ret_val, output = self.util._validate_integer(self.action_result, input_value, "page", True)
 
         self.assertTrue(ret_val)
         self.assertEqual(output, expected_value)
         self.assertEqual(self.action_result.get_message(), expected_message)
 
-    @parameterized.expand([
-        ["float", "10.5", "Please provide a valid integer value in the 'page' parameter"],
-        ["negative", "-10", "Please provide a valid non-negative integer value in the 'page' parameter"],
-        ["zero_not_allowed", "0", "Please provide a non-zero positive integer value in the 'page' parameter"],
-        ["alphanumeric", "abc12", "Please provide a valid integer value in the 'page' parameter"],
-    ])
+    @parameterized.expand(
+        [
+            ["float", "10.5", "Please provide a valid integer value in the 'page' parameter"],
+            ["negative", "-10", "Please provide a valid non-negative integer value in the 'page' parameter"],
+            ["zero_not_allowed", "0", "Please provide a non-zero positive integer value in the 'page' parameter"],
+            ["alphanumeric", "abc12", "Please provide a valid integer value in the 'page' parameter"],
+        ]
+    )
     def test_validate_integer_fail(self, _, input_value, expected_message):
         """Test the failed cases for the validate integer method."""
-        ret_val, output = self.util._validate_integer(self.action_result, input_value, 'page', False)
+        ret_val, output = self.util._validate_integer(self.action_result, input_value, "page", False)
 
         self.assertFalse(ret_val)
         self.assertIsNone(output)
@@ -121,8 +127,9 @@ class TestProcessEmptyResponse(unittest.TestCase):
         self.action_result = ActionResult(dict())
         return super().setUp()
 
-    @parameterized.expand([
-        ["success_code", 200, True, {}], ["success_code", 201, True, {}], ["success_code", 204, True, {}], ["error_code", 401, False, None]])
+    @parameterized.expand(
+        [["success_code", 200, True, {}], ["success_code", 201, True, {}], ["success_code", 204, True, {}], ["error_code", 401, False, None]]
+    )
     def test_process_empty_response(self, _, mock_code, expected_status, expected_value):
         """Test the pass and fail cases of process empty response method."""
         self.response.status_code = mock_code
@@ -141,10 +148,16 @@ class TestProcessHtmlResponse(unittest.TestCase):
         self.action_result = ActionResult(dict())
         return super().setUp()
 
-    @parameterized.expand([
-        ["normal_response", "Oops!<script>document.getElementById('demo')</script>", False,
-         "Error from server. Status code: 500, Reason: Internal Server Error, Error message: Oops!"],
-    ])
+    @parameterized.expand(
+        [
+            [
+                "normal_response",
+                "Oops!<script>document.getElementById('demo')</script>",
+                False,
+                "Error from server. Status code: 500, Reason: Internal Server Error, Error message: Oops!",
+            ],
+        ]
+    )
     def test_process_html_response(self, _, response_value, expected_value, expected_message):
         """Test the pass and fail cases of process html response method."""
         if response_value:
@@ -232,7 +245,7 @@ class TestProcessPcapResponse(unittest.TestCase):
         :return: None
         """
         # Mock the necessary objects
-        self.response.headers = {"Content-Disposition": "attachment; filename=\"test.txt\""}
+        self.response.headers = {"Content-Disposition": 'attachment; filename="test.txt"'}
         self.response.status_code = 200
         self.response.iter_content.return_value = [b"chunk1", b"chunk2"]
 
@@ -247,7 +260,7 @@ class TestProcessPcapResponse(unittest.TestCase):
         # self.util._connector.save_progress.assert_called_with_prefix("Using temp directory: /opt/phantom/vault/tmp/{guid}")
 
         # Assert that the file was written to disk correctly
-        with open(self.util.file_path, 'rb') as f:
+        with open(self.util.file_path, "rb") as f:
             data = f.read()
             self.assertEqual(data, b"chunk1chunk2")
 
@@ -267,7 +280,7 @@ class TestProcessPcapResponse(unittest.TestCase):
         Returns:
         - None
         """
-        self.response.headers = {"Content-Disposition": "attachment; filename=\"test.txt\""}
+        self.response.headers = {"Content-Disposition": 'attachment; filename="test.txt"'}
         self.response.status_code = 400
         self.response.text = "Server Error"
 
@@ -286,7 +299,7 @@ class TestCreateCriticalSeverity(unittest.TestCase):
         """Set up method for the tests."""
         self._connector = VectraNDRConnector()
         self._connector.config = {"api_token": "new_key"}
-        self._connector.get_phantom_base_url = (lambda: "http://example:8445/")
+        self._connector.get_phantom_base_url = lambda: "http://example:8445/"
         self.util = VectraNDRUtils(self._connector)
         self.action_result = ActionResult(dict())
 

@@ -1,6 +1,6 @@
 # File: test_vectrandr_download_pcap.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -61,7 +61,7 @@ class DownloadPCAPAction(unittest.TestCase):
 
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'detection_id': 101010}]
+        self.test_json["parameters"] = [{"detection_id": 101010}]
         with open(self.file_to_zip, "wb") as f:
             f.write(b"Test log data")
 
@@ -70,7 +70,7 @@ class DownloadPCAPAction(unittest.TestCase):
             mock_get.return_value.status_code = 200
             mock_get.return_value.headers = {
                 "Content-Type": "application/force-download",
-                "Content-Disposition": "attachement;filename='IP-192.168.199.30_internal_stage_loader_1061.pcap'"
+                "Content-Disposition": "attachement;filename='IP-192.168.199.30_internal_stage_loader_1061.pcap'",
             }
             mock_get.return_value.content = binary_data.read()
 
@@ -88,7 +88,7 @@ class DownloadPCAPAction(unittest.TestCase):
 
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'detection_id': 999999999}]
+        self.test_json["parameters"] = [{"detection_id": 999999999}]
 
         mock_get.return_value.status_code = 404
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -96,4 +96,4 @@ class DownloadPCAPAction(unittest.TestCase):
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)
-        self.assertEqual(ret_val['status'], 'failed')
+        self.assertEqual(ret_val["status"], "failed")

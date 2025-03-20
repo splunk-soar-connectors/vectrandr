@@ -1,6 +1,6 @@
 # File: test_vectrandr_describe_entity.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -48,7 +48,7 @@ class DescribeEntityAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_type': "account", 'entity_id': 1}]
+        self.test_json["parameters"] = [{"entity_type": "account", "entity_id": 1}]
 
         mock_get.return_value.status_code = 200
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -67,7 +67,7 @@ class DescribeEntityAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_type': "account_not_present", 'entity_id': 1}]
+        self.test_json["parameters"] = [{"entity_type": "account_not_present", "entity_id": 1}]
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)
@@ -83,7 +83,7 @@ class DescribeEntityAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'entity_type': "account", 'entity_id': 0}]
+        self.test_json["parameters"] = [{"entity_type": "account", "entity_id": 0}]
 
         mock_get.return_value.status_code = 404
         mock_get.return_value.headers = vectrandr_config.DEFAULT_HEADERS

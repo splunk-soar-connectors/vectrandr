@@ -1,6 +1,6 @@
 # File: test_vectrandr_mark_detection.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -51,7 +51,7 @@ class MarkDetectionAction(unittest.TestCase):
         Patch the patch() to return the valid response.
         """
         detection_id = 1952
-        self.test_json['parameters'] = [{'detection_id': detection_id}]
+        self.test_json["parameters"] = [{"detection_id": detection_id}]
 
         mock_patch.return_value.status_code = 200
         mock_patch.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -59,7 +59,7 @@ class MarkDetectionAction(unittest.TestCase):
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)
-        self.assertEqual(ret_val['status'], 'success')
+        self.assertEqual(ret_val["status"], "success")
 
         mock_patch.assert_called_with(
             f"{vectrandr_config.DUMMY_BASE_URL}{consts.VECTRA_API_VERSION}{consts.VECTRA_DETECTIONS_ENDPOINT}",
@@ -79,7 +79,7 @@ class MarkDetectionAction(unittest.TestCase):
         Patch the patch() to return the valid response.
         """
         detection_id = 9999999999
-        self.test_json['parameters'] = [{'detection_id': detection_id}]
+        self.test_json["parameters"] = [{"detection_id": detection_id}]
 
         mock_patch.return_value.status_code = 404
         mock_patch.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -87,7 +87,7 @@ class MarkDetectionAction(unittest.TestCase):
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)
-        self.assertEqual(ret_val['status'], 'failed')
+        self.assertEqual(ret_val["status"], "failed")
 
         mock_patch.assert_called_with(
             f"{vectrandr_config.DUMMY_BASE_URL}{consts.VECTRA_API_VERSION}{consts.VECTRA_DETECTIONS_ENDPOINT}",

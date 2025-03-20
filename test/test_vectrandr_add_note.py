@@ -1,6 +1,6 @@
 # File: test_vectrandr_add_note.py
 #
-# Copyright (c) 2024 Vectra
+# Copyright (c) 2024-2025 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -49,7 +49,7 @@ class AddNoteAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'object_id': 212, "object_type": "host", "note": "test note"}]
+        self.test_json["parameters"] = [{"object_id": 212, "object_type": "host", "note": "test note"}]
 
         mock_post.return_value.status_code = 200
         mock_post.return_value.headers = vectrandr_config.DEFAULT_HEADERS
@@ -69,7 +69,7 @@ class AddNoteAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'object_id': 21123445552, "object_type": "host", "note": "test note"}]
+        self.test_json["parameters"] = [{"object_id": 21123445552, "object_type": "host", "note": "test note"}]
 
         mock_post.return_value.status_code = 404
         mock_post.return_value.json.return_value = ""
@@ -87,7 +87,7 @@ class AddNoteAction(unittest.TestCase):
         Token is available in the state file.
         Patch the get() to return the valid response.
         """
-        self.test_json['parameters'] = [{'object_type': "account_not_present", 'object_id': 1, "note": "test note"}]
+        self.test_json["parameters"] = [{"object_type": "account_not_present", "object_id": 1, "note": "test note"}]
 
         ret_val = self.connector._handle_action(json.dumps(self.test_json), None)
         ret_val = json.loads(ret_val)

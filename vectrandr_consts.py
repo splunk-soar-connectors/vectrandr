@@ -1,6 +1,6 @@
 # File: vectrandr_consts.py
 #
-# Copyright (c) Vectra, 2024
+# Copyright (c) Vectra, 2024-2025
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -56,14 +56,10 @@ VECTRA_ERROR_INVALID_INT_PARAM = "Please provide a valid integer value in the '{
 VECTRA_ERROR_GENERAL_MESSAGE = "Status code: {}, Data from server: {}"
 VECTRA_ERROR_HTML_RESPONSE = "Error parsing html response"
 VECTRA_UTC_SINCE_TIME_ERROR = "Please provide time in the span of UTC time since Unix epoch 1970-01-01T00:00:00Z."
-VECTRA_GREATER_EQUAL_TIME_ERROR = 'Invalid {0}, can not be greater than or equal to current UTC time'
+VECTRA_GREATER_EQUAL_TIME_ERROR = "Invalid {0}, can not be greater than or equal to current UTC time"
 VECTRA_ERROR_MAX_INT_PARAM = "Please provide a valid integer value upto {max_value} in the '{key}' parameter"
 VECTRA_VALID_ENTITIES = ["host", "account"]
-ENTITY_TYPE_MAPPING = {
-    'host': 'hosts',
-    'account': 'accounts',
-    'detection': 'detections'
-}
+ENTITY_TYPE_MAPPING = {"host": "hosts", "account": "accounts", "detection": "detections"}
 VECTRA_DETECTION_CATEGORIES_MAPPING = {
     "Command and Control": "command",
     "Botnet": "botnet",
@@ -74,38 +70,17 @@ VECTRA_DETECTION_CATEGORIES_MAPPING = {
     "All": "All",
 }
 VECTRA_CEF_TYPES = {
-    'entity': {
-        'id': ['entity id'],
-        'type': ['entity type']
-    },
-    'detection': {
-        'id': ['detection id'],
-        'type': ['detection type'],
-        'category': ['detection category']
-    },
-    'assignment': {
-        'id': ["assignment id"]
-    }
+    "entity": {"id": ["entity id"], "type": ["entity type"]},
+    "detection": {"id": ["detection id"], "type": ["detection type"], "category": ["detection category"]},
+    "assignment": {"id": ["assignment id"]},
 }
 
 DEFAULT_SEVERITY = ["high", "medium", "low", "critical"]
 VECTRA_SEVERITY = [
-    {
-        "color": "red",
-        "name": "critical"
-    },
-    {
-        "color": "orange",
-        "name": "high"
-    },
-    {
-        "color": "yellow",
-        "name": "medium"
-    },
-    {
-        "color": "dark_grey",
-        "name": "low"
-    }
+    {"color": "red", "name": "critical"},
+    {"color": "orange", "name": "high"},
+    {"color": "yellow", "name": "medium"},
+    {"color": "dark_grey", "name": "low"},
 ]
 
 VECTRA_LAST_DETECTION_TIMESTAMP_IN_STATE = "last_detection_timestamp"

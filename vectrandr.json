@@ -10,7 +10,7 @@
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "Vectra AI",
-    "license": "Copyright (c) Vectra, 2024",
+    "license": "Copyright (c) Vectra, 2024-2025",
     "app_version": "1.0.1",
     "utctime_updated": "2023-09-27T11:54:56.782387Z",
     "package_name": "phantom_vectrandr",
@@ -3867,6 +3867,9 @@
                     "data_type": "numeric",
                     "example_values": [
                         121
+                    ],
+                    "contains": [
+                        "assignment id"
                     ]
                 },
                 {
