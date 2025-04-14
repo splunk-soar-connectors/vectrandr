@@ -1,7 +1,7 @@
 # Vectra Cognito Detect Splunk SOAR
 
 Publisher: Vectra AI \
-Connector Version: 1.0.1 \
+Connector Version: 1.0.2 \
 Product Vendor: Vectra AI \
 Product Name: Vectra AI \
 Minimum Product Version: 6.1.0
