@@ -7,7 +7,7 @@
     "logo": "logo_vectrandr.svg",
     "logo_dark": "logo_vectrandr_dark.svg",
     "product_name": "Vectra AI",
-    "python_version": "3",
+    "python_version": ["3.9", "3.13"],
     "product_version_regex": ".*",
     "publisher": "Vectra AI",
     "license": "Copyright (c) Vectra, 2024-2025",
