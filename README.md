@@ -1,10 +1,10 @@
 # Vectra Cognito Detect Splunk SOAR
 
-Publisher: Vectra AI \
-Connector Version: 1.0.2 \
-Product Vendor: Vectra AI \
-Product Name: Vectra AI \
-Minimum Product Version: 6.1.0
+Publisher: Vectra AI <br>
+Connector Version: 1.0.2 <br>
+Product Vendor: Vectra AI <br>
+Product Name: Vectra AI <br>
+Minimum Product Version: 6.3.0
 
 Vectra AI is the leader in AI-driven threat detection and response for hybrid and multi-cloud enterprises. Organizations worldwide rely on Vectra to stay ahead of modern cyber-attacks. The Vectra AI App enables the security operations team to consume Vectra's Quadrant User Experience signal and take appropriate action whether automated, semi-automated, or manual, using Splunk SOAR
 
@@ -127,29 +127,29 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
-[describe detection](#action-describe-detection) - Get all the details of a detection \
-[describe entity](#action-describe-entity) - Get all the details of an entity \
-[mark detection](#action-mark-detection) - Mark detection as fixed \
-[unmark detection](#action-unmark-detection) - Unmark detection as fixed \
-[list entity detections](#action-list-entity-detections) - List all active detections present in an entity \
-[mark entity detections](#action-mark-entity-detections) - Mark entity detections as fixed \
-[download pcap](#action-download-pcap) - Download PCAP of a detection \
-[add note](#action-add-note) - Add note to a specific entity/detection \
-[update note](#action-update-note) - Update note of a specific entity \
-[remove note](#action-remove-note) - Remove note of a specific entity \
-[add tags](#action-add-tags) - Add tags to an entity/detection \
-[remove tags](#action-remove-tags) - Remove tags from an entity \
-[add assignment](#action-add-assignment) - Add assignment for an entity \
-[update assignment](#action-update-assignment) - Update assignment for an entity \
-[resolve assignment](#action-resolve-assignment) - Resolves assignment of an entity \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
+[describe detection](#action-describe-detection) - Get all the details of a detection <br>
+[describe entity](#action-describe-entity) - Get all the details of an entity <br>
+[mark detection](#action-mark-detection) - Mark detection as fixed <br>
+[unmark detection](#action-unmark-detection) - Unmark detection as fixed <br>
+[list entity detections](#action-list-entity-detections) - List all active detections present in an entity <br>
+[mark entity detections](#action-mark-entity-detections) - Mark entity detections as fixed <br>
+[download pcap](#action-download-pcap) - Download PCAP of a detection <br>
+[add note](#action-add-note) - Add note to a specific entity/detection <br>
+[update note](#action-update-note) - Update note of a specific entity <br>
+[remove note](#action-remove-note) - Remove note of a specific entity <br>
+[add tags](#action-add-tags) - Add tags to an entity/detection <br>
+[remove tags](#action-remove-tags) - Remove tags from an entity <br>
+[add assignment](#action-add-assignment) - Add assignment for an entity <br>
+[update assignment](#action-update-assignment) - Update assignment for an entity <br>
+[resolve assignment](#action-resolve-assignment) - Resolves assignment of an entity <br>
 [on poll](#action-on-poll) - Ingest entities from Vectra using Vectra API
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 This action will check the status of the Vectra API endpoint and test connectivity of Splunk SOAR to the Vectra instance.
@@ -167,7 +167,7 @@ No Output
 
 Get all the details of a detection
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -273,7 +273,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Get all the details of an entity
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -444,7 +444,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Mark detection as fixed
 
-Type: **contain** \
+Type: **contain** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -470,7 +470,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Unmark detection as fixed
 
-Type: **contain** \
+Type: **contain** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -496,7 +496,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 List all active detections present in an entity
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -591,7 +591,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Mark entity detections as fixed
 
-Type: **contain** \
+Type: **contain** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -619,7 +619,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Download PCAP of a detection
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -645,7 +645,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Add note to a specific entity/detection
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -679,7 +679,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Update note of a specific entity
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -715,7 +715,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Remove note of a specific entity
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -744,7 +744,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Add tags to an entity/detection
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 Note: If the 'tags_list' parameter contains tags provided as comma-separated values, each tag exceeding 100 characters in length will be trimmed down to 100 characters.
@@ -777,7 +777,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Remove tags from an entity
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -808,7 +808,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Add assignment for an entity
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -855,7 +855,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Update assignment for an entity
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -900,7 +900,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Resolves assignment of an entity
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -960,7 +960,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Ingest entities from Vectra using Vectra API
 
-Type: **ingest** \
+Type: **ingest** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -981,7 +981,7 @@ ______________________________________________________________________
 
 Auto-generated Splunk SOAR Connector documentation.
 
-Copyright 2025 Splunk Inc.
+Copyright 2026 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
