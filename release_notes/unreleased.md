@@ -1,3 +1,1 @@
 **Unreleased**
-
-* Updated the test configuration helper to read local settings from the environment.
