@@ -1,6 +1,6 @@
 # File: vectrandr_config.py
 #
-# Copyright (c) 2024-2025 Vectra
+# Copyright (c) 2024-2026 Vectra
 #
 # This unpublished material is proprietary to Vectra.
 # All rights reserved. The methods and
@@ -82,10 +82,9 @@ def get_session_id(connector, verify=False):
     r = requests.get(login_url, verify=verify)
     csrftoken = r.cookies["csrftoken"]
 
-    # TODO: Remove this
-    os.environ["USERNAME"] = "soar_local_admin"
-    os.environ["PASSWORD"] = "password"  # pragma: allowlist secret  width="300" height="390"
-    data = {"username": os.environ.get("USERNAME"), "password": os.environ.get("PASSWORD"), "csrfmiddlewaretoken": csrftoken}
+    username = os.environ["USERNAME"]
+    password = os.environ["PASSWORD"]
+    data = {"username": username, "password": password, "csrfmiddlewaretoken": csrftoken}
 
     headers = {"Cookie": f"csrftoken={csrftoken}", "Referer": login_url}
 
