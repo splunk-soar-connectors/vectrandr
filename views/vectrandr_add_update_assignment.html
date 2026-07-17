@@ -131,7 +131,7 @@
                 <tr>
                   <td style="max-width:150px; word-break: break-all;">
                     <a href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['assignment id'], 'value':{{ data.id }} }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['assignment id'], 'value':'{{ data.id|escapejs }}' }], 0, {{ container.id }}, null, false);">
                       {{ data.id }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -140,7 +140,7 @@
                   {% if data.host_id %}
                     <td style="max-width:150px; word-break: break-all;">
                       <a href="javascript:;"
-                         onclick="context_menu(this, [{'contains': ['entity id'], 'value':{{ data.host_id }} }], 0, {{ container.id }}, null, false);">
+                         onclick="context_menu(this, [{'contains': ['entity id'], 'value':'{{ data.host_id|escapejs }}' }], 0, {{ container.id }}, null, false);">
                         {{ data.host_id }}
                         &nbsp;
                         <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -149,7 +149,7 @@
                   {% else %}
                     <td style="max-width:150px; word-break: break-all;">
                       <a href="javascript:;"
-                         onclick="context_menu(this, [{'contains': ['entity id'], 'value':{{ data.account_id }} }], 0, {{ container.id }}, null, false);">
+                         onclick="context_menu(this, [{'contains': ['entity id'], 'value':'{{ data.account_id|escapejs }}' }], 0, {{ container.id }}, null, false);">
                         {{ data.account_id }}
                         &nbsp;
                         <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -158,7 +158,7 @@
                   {% endif %}
                   <td style="max-width:150px; word-break: break-all;">
                     <a href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['user id'], 'value':{{ data.assigned_to.id }} }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['user id'], 'value':'{{ data.assigned_to.id|escapejs }}' }], 0, {{ container.id }}, null, false);">
                       {{ data.assigned_to.id }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
