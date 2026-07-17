@@ -130,7 +130,7 @@
                 <tr>
                   <td style="max-width:150px; word-break: break-all;">
                     <a href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['entity id', 'detection id'], 'value':{{ data.tag_id }} }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['entity id', 'detection id'], 'value':'{{ data.tag_id|escapejs }}' }], 0, {{ container.id }}, null, false);">
                       {{ data.tag_id }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -141,7 +141,7 @@
                       {% for tag in data.tags %}
                         <li style="list-style-type: none;">
                           <a href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['tag'], 'value':'{{ tag }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['tag'], 'value':'{{ tag|escapejs }}' }], 0, {{ container.id }}, null, false);">
                             {{ tag }}
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>

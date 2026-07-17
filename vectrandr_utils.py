@@ -189,8 +189,12 @@ class VectraNDRUtils:
 
         response_headers = response.headers
         filename = response_headers["Content-Disposition"].split("filename=")[-1]
-        filename = filename.replace('"', "")
-        file_path = f"{local_dir}/{filename}"
+        filename = filename.strip().strip("\"'")
+        filename = os.path.basename(filename.replace("\\", "/"))
+        if not filename or filename in {".", ".."}:
+            return RetVal(action_result.set_status(phantom.APP_ERROR, "Refusing unsafe download filename"), None)
+
+        file_path = os.path.join(local_dir, filename)
         self.file_path = file_path
 
         try:
@@ -374,7 +378,7 @@ class VectraNDRUtils:
                     timeout=consts.VECTRA_REQUEST_TIMEOUT,
                     headers=headers,
                     params=params,
-                    verify=self._connector.config.get("verify_server_certificate", False),
+                    verify=self._connector.config.get("verify_server_certificate", True),
                     stream=is_stream_download,
                     **kwargs,
                 )

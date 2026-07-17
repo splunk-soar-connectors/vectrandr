@@ -28,6 +28,7 @@
         "verify_server_certificate": {
             "description": "Verify Server Certificate",
             "data_type": "boolean",
+            "default": true,
             "order": 1
         },
         "api_token": {

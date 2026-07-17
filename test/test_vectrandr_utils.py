@@ -291,6 +291,18 @@ class TestProcessPcapResponse(unittest.TestCase):
         self.assertEqual(result[0], phantom.APP_ERROR)
         self.assertIsNone(result[1])
 
+    def test_process_pcap_response_reduces_filename_to_leaf(self):
+        """Test that an upstream traversal filename cannot escape the vault temp directory."""
+        self.response.headers = {"Content-Disposition": 'attachment; filename="../../tmp/planted.txt"'}
+        self.response.status_code = 200
+        self.response.iter_content.return_value = [b"safe"]
+
+        result = self.util._process_pcap_response(self.response, self.action_result)
+
+        self.assertEqual(result[0], phantom.APP_SUCCESS)
+        self.assertEqual(os.path.basename(self.util.file_path), "planted.txt")
+        self.assertNotEqual(self.util.file_path, "/tmp/planted.txt")
+
 
 class TestCreateCriticalSeverity(unittest.TestCase):
     """Test the pass and fail cases of create critical severity method."""
