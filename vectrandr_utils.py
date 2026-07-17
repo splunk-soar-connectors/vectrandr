@@ -378,7 +378,7 @@ class VectraNDRUtils:
                     timeout=consts.VECTRA_REQUEST_TIMEOUT,
                     headers=headers,
                     params=params,
-                    verify=self._connector.config.get("verify_server_certificate", False),
+                    verify=self._connector.config.get("verify_server_certificate", True),
                     stream=is_stream_download,
                     **kwargs,
                 )
